@@ -14,8 +14,9 @@ import { useAlerts, useAttacks, useDevices, useTelemetry, type Alert, type Attac
 import { useEffect, useState } from "react";
 
 function useClock() {
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
+    setNow(new Date());
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
@@ -359,7 +360,7 @@ export function Dashboard() {
             </div>
             <div className="rounded-md border border-border/60 bg-card/60 px-3 py-1.5 font-mono text-xs">
               <span className="text-muted-foreground">UTC </span>
-              <span>{now.toISOString().slice(11, 19)}</span>
+              <span>{now ? now.toISOString().slice(11, 19) : "--:--:--"}</span>
             </div>
             <div className="flex items-center gap-2 rounded-md border border-success/30 bg-success/10 px-3 py-1.5 text-xs font-mono text-success">
               <span className="pulse-dot" /> SYSTEM NOMINAL
