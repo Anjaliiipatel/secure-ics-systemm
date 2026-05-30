@@ -125,7 +125,7 @@ function TelemetryPanel() {
           { label: "Flow", key: "flow", unit: "L/m", color: "var(--chart-2)" },
           { label: "Voltage", key: "voltage", unit: "V", color: "var(--chart-5)" },
         ].map((m) => {
-          const last = data[data.length - 1] as any;
+          const last = (data[data.length - 1] ?? {}) as any;
           return (
             <div key={m.key} className="rounded-md border border-border/60 bg-muted/30 p-3">
               <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-muted-foreground">
