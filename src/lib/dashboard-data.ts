@@ -101,8 +101,9 @@ function clamp(v: number, lo: number, hi: number) {
 }
 
 export function useAlerts() {
-  const [alerts, setAlerts] = useState<Alert[]>(() => seedAlerts());
+  const [alerts, setAlerts] = useState<Alert[]>([]);
   useEffect(() => {
+    setAlerts(seedAlerts());
     const id = setInterval(() => {
       if (Math.random() < 0.45) {
         setAlerts((a) => [makeAlert(), ...a].slice(0, 40));
@@ -112,6 +113,7 @@ export function useAlerts() {
   }, []);
   return alerts;
 }
+
 
 function seedAlerts(): Alert[] {
   return Array.from({ length: 8 }, () => makeAlert());
