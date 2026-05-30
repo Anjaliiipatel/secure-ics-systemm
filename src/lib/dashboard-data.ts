@@ -59,23 +59,25 @@ function nowHHMMSS(d = new Date()) {
 }
 
 export function useTelemetry(points = 40) {
-  const [data, setData] = useState<Telemetry[]>(() => {
-    const base = new Date();
-    return Array.from({ length: points }, (_, i) => {
-      const t = new Date(base.getTime() - (points - i) * 2000);
-      return {
-        t: nowHHMMSS(t),
-        pressure: +rand(48, 62).toFixed(2),
-        temperature: +rand(68, 78).toFixed(2),
-        flow: +rand(120, 160).toFixed(2),
-        voltage: +rand(228, 236).toFixed(2),
-      };
-    });
-  });
+  const [data, setData] = useState<Telemetry[]>([]);
 
   useEffect(() => {
+    const base = new Date();
+    setData(
+      Array.from({ length: points }, (_, i) => {
+        const t = new Date(base.getTime() - (points - i) * 2000);
+        return {
+          t: nowHHMMSS(t),
+          pressure: +rand(48, 62).toFixed(2),
+          temperature: +rand(68, 78).toFixed(2),
+          flow: +rand(120, 160).toFixed(2),
+          voltage: +rand(228, 236).toFixed(2),
+        };
+      }),
+    );
     const id = setInterval(() => {
       setData((prev) => {
+        if (prev.length === 0) return prev;
         const last = prev[prev.length - 1];
         const next: Telemetry = {
           t: nowHHMMSS(),
@@ -88,10 +90,11 @@ export function useTelemetry(points = 40) {
       });
     }, 2000);
     return () => clearInterval(id);
-  }, []);
+  }, [points]);
 
   return data;
 }
+
 
 function clamp(v: number, lo: number, hi: number) {
   return +Math.min(hi, Math.max(lo, v)).toFixed(2);
