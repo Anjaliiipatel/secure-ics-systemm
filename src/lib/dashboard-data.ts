@@ -173,10 +173,9 @@ export function useDevices(): Device[] {
 }
 
 export function useAttacks() {
-  const [events, setEvents] = useState<AttackEvent[]>(() =>
-    Array.from({ length: 6 }, () => makeAttack()),
-  );
+  const [events, setEvents] = useState<AttackEvent[]>([]);
   useEffect(() => {
+    setEvents(Array.from({ length: 6 }, () => makeAttack()));
     const id = setInterval(() => {
       if (Math.random() < 0.55) setEvents((e) => [makeAttack(), ...e].slice(0, 30));
     }, 4000);
@@ -184,6 +183,7 @@ export function useAttacks() {
   }, []);
   return events;
 }
+
 function makeAttack(): AttackEvent {
   const sev = pick<AttackEvent["severity"]>(["critical", "warning", "info", "warning"]);
   return {
