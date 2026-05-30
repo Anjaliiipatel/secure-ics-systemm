@@ -14,8 +14,9 @@ import { useAlerts, useAttacks, useDevices, useTelemetry, type Alert, type Attac
 import { useEffect, useState } from "react";
 
 function useClock() {
-  const [now, setNow] = useState(() => new Date());
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
+    setNow(new Date());
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
