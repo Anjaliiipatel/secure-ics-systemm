@@ -133,7 +133,7 @@ function TelemetryPanel() {
                 {m.label}
               </div>
               <div className="mt-1 font-mono text-lg">
-                {last[m.key]}
+                {last[m.key] ?? "--"}
                 <span className="ml-1 text-xs text-muted-foreground">{m.unit}</span>
               </div>
             </div>
